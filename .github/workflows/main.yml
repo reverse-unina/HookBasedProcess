@@ -95,7 +95,6 @@ jobs:
             cd test-guard
             ls -a
             echo "Visualizzazione file ftl prima dell injection! "
-            cat ${{ secrets.DIR_FILE_FE }}
             echo "Visualizza versione di node"
             node -v
             echo "... Cancellazione e successivo aggiornamento di node_modules ..."
@@ -111,7 +110,6 @@ jobs:
             node -v
             node main.js inject-hooks ${{ secrets.DIR_FILE_FE }} --grammar ${{ secrets.GRAMMAR_TYPE }}
             echo "Visualizzazione file ftl dopo l'injection!!! "
-            cat ${{ secrets.DIR_FILE_FE }}
             git config --global user.email "${{ secrets.EMAIL_ACCOUNT_GITHUB }}"
             git config --global user.name "${{ secrets.NOME_ACCOUNT_GITHUB }}"
             git config --global user.password "${{ secrets.PASSWORD_ACCOUNT_GITHUB }}"
