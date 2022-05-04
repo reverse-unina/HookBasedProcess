@@ -1,10 +1,10 @@
-Strumento Generale sviluppato nella tesi di laurea.
+Hook-based E2E Testing Framework
 
-Per configurarlo su di una propria applicazione web, seguire i seguenti passi:
+To configure it on your own web application, follow these steps:
 
-1) Creare il virtual environment “envForGithubActions” 
+1) Create the "envForGithubActions" virtual environment in Github
 
-2) Inserire le seguenti 9 variabili d'ambiente, customizzando i valori di esempio qui riportati in base al proprio caso d'uso:
+2) Insert the following 9 environment variables, customizing the example values shown here according to your application under test:
 BRANCH_NAME: master
 DIR_FILE_FE: /home/runner/work/Tesi-AngularProject/Tesi-AngularProject/WebAppHooks/angular-java-example-master/src/main/ui/src/app/*.html
 EMAIL_ACCOUNT_GITHUB: t*********@gmail.com
@@ -15,28 +15,31 @@ NUMERO_SPLIT: 1
 PATH_REPOSITORY: /home/runner/work/Tesi-AngularProject/Tesi-AngularProject
 MIN_EXE_TEST: 5
 
-3) Sostituire la directory "inserisci-qui-la-tua-web-app" con una cartella contenente il progetto della propria applicazione web
+DIR_FILE_FE is the folder of the web app recursively containing Web templates
+NOME_ACCOUNT_GITHUB is the name of the Github user. Github credentials are needed to allow to the yamls scripts to upload application refactorings updates and test results
+Supported GRAMMAR_TYPE values: angularjs, smarty, twig, freemarker
+NUMERO_SPLIT is currently unused
+PATH_REPOSITORY is the path on the cloud machine that will contains the checkout of the web app
+MIN_EXE_TEST is the timeout time (in seconds) for test case execution. Shorter value may cause the failure of test cases for slow rendered Web applications
 
-4) Customizzare i file startBackEnd.sh e startFrontEnd.sh, in base al proprio caso d'uso.
-Vediamo degli esempi, 
+3) Replace the "insert-here-your-web-app" folder on this repository with a folder containing your web application project
+
+4) Customize the startBackEnd.sh and startFrontEnd.sh files, based on your application under test, in order to consider preconditions and dependencies.
+For example:
 
 startBackEnd.sh:
 cd /home/runner/work/Tesi-integrazioneProgettoEsterno/Tesi-integrazioneProgettoEsterno/angular-java-example-master
 mvn clean install
 cd /home/runner/work/Tesi-integrazioneProgettoEsterno/Tesi-integrazioneProgettoEsterno/angular-java-example-master/target
-echo "Vediamo quali file jar si trovano in cartella target"
+echo "Listing of jarfiles in the target folder"
 ls -a
-echo "Proviamo ad eseguire ${{ secrets.NOME_JAR_WEBAPP }}.jar"
 java -jar users-0.0.1-SNAPSHOT.jar
 
 startFrontEnd.sh:
 cd /home/runner/work/Tesi-integrazioneProgettoEsterno/Tesi-integrazioneProgettoEsterno/angular-java-example-master/src/main/ui
-echo "Siamo nella directory FE, proviamo a lanciarlo in esecuzione"
 npm install
-echo "Installazione npm effettuata, prossimo comando: npm start"
 npm start
 
 
-N.B. I file di test che si vogliono eseguire in modalità headless all'interno del container, devono
-essere storicizzati all'interno della directory:
+N.B. The test files that will be run into the conrainer, must be saved in the folder:
 ./project-test-headless/src/test/java/com/example/TesiIntegrazioneProgettoEsterno/
